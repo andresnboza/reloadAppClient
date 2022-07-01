@@ -1,0 +1,17 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: deployment-reload-app-client
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        label-key : label-value  
+    spec:
+      containers:
+        - name: reload-app-client
+          image: andresnboza/reload-app-client:v1
+          imagePullPolicy: Always
+          ports:
+          - containerPort: 80

@@ -1,0 +1,14 @@
+name: GitHub Actions Demo
+on: [push]
+jobs:
+  Explore-GitHub-Actions:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code of ${{ github.repository }}
+        uses: actions/checkout@v3
+      - name: Update the docker image
+        run: |
+          docker login ${{ secrets.DOCKER_USER }} ${{ secrets.DOCKER_PASS }}
+          docker image build -t andresnboza/reload-app-client .
+          docker push andresnboza/reload-app-client
+      - run: echo "🍏 This job's status is ${{ job.status }}."
