@@ -15,6 +15,11 @@ configDotEnvAsConfigMap:
 configDotEnvAsSecret:
 	kubectl create secret generic reload-app-client --from-file=.env=.env
 
+
+docker_run:
+	docker build -t andresnboza/${REPO} .
+	docker run --rm -p 4000:80 andresnboza/${REPO} 
+
 push:
 	git add . 
 	git commit -m "update"

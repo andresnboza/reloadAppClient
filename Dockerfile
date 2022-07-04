@@ -25,7 +25,9 @@ RUN rm /etc/nginx/conf.d/default.conf
 
 # Remove nginx defaults and Copy angular production build output from build stage.
 RUN rm -rf /usr/share/nginx/html/*
+COPY ./services.conf /etc/nginx/conf.d/
 COPY --from=build /app/dist/out/* /usr/share/nginx/html/
 
 # Expose port 80
 EXPOSE 80
+EXPOSE 443
