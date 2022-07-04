@@ -6,8 +6,7 @@ docker_push:
 	docker push andresnboza/${REPO}
 
 buildDockerImage:
-	docker build -t reload-app-client .
-	docker tag reload-app-client andresnboza/reload-app-client
+	docker build -t andresnboza/reload-app-client .
 	docker push andresnboza/reload-app-client
 	@echo "==> END of docker build <=="
 
