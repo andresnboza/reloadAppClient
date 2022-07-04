@@ -1,20 +1,36 @@
-FROM node:latest as node
+# Stage 1
+FROM node:10-alpine as build-step
 
-ARG ENV=prod
-ARG APP=angular-realworld-example-app
+RUN mkdir -p /app 
 
-ENV ENV ${ENV}
-ENV APP ${APP}
+WORKDIR /app 
+COPY package.json /app
 
-WORKDIR /app
-COPY ./ /app/
+RUN npm install
 
-# Install Packaged and Build App
-RUN npm ci
+COPY . /app
+
 RUN npm run build --prod
 
-# Serve app, based on Nginx, to have only the compiled app ready for production with Nginx
-FROM nginx:1.13.8-alpine
+# Stage 2
+FROM nginx:1.17.1-alpine
 
-COPY --from=node /app/dist/ /usr/share/nginx/html
-COPY ./nginx.conf /etc/nginx/conf.d/default.conf
+# Clean nginx
+RUN rm -rf /usr/share/nginx/html/*
+
+# Copy dist
+COPY --from=build-step /app/dist/<replace me> /usr/share/nginx/html
+
+COPY nginx.conf /etc/nginx/nginx.conf
+
+WORKDIR /usr/share/nginx/html
+
+# Permission
+RUN chown root /usr/share/nginx/html/*
+RUN chmod 755 /usr/share/nginx/html/*
+
+# Expose port
+EXPOSE 3000
+
+# Start
+CMD ["nginx", "-g", "daemon off;"]
