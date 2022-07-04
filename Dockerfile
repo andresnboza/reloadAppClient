@@ -1,36 +1,31 @@
-# Stage 1
-FROM node:10-alpine as build-step
+# syntax=docker/dockerfile:1
 
-RUN mkdir -p /app 
+# Stage 1: Compile and Build angular codebase
+# Use official node image as the base image
+FROM node:14 as build
 
-WORKDIR /app 
-COPY package.json /app
+# Set the working directory
+WORKDIR /app
 
+# Add the source code to app
+COPY ./ /app/
+
+# Install all the dependencies
 RUN npm install
 
-COPY . /app
+# Generate production build
+RUN npm run build -- --output-path=/app/dist/out --base-href / --configuration production --aot
 
-RUN npm run build --prod
 
-# Stage 2
-FROM nginx:1.17.1-alpine
+# Stage 2: Serve app with nginx server
+# Use official nginx image as the base image
+FROM nginx:latest
 
-# Clean nginx
+RUN rm /etc/nginx/conf.d/default.conf
+
+# Remove nginx defaults and Copy angular production build output from build stage.
 RUN rm -rf /usr/share/nginx/html/*
+COPY --from=build /app/dist/out/* /usr/share/nginx/html/
 
-# Copy dist
-COPY --from=build-step /app/dist/<replace me> /usr/share/nginx/html
-
-COPY nginx.conf /etc/nginx/nginx.conf
-
-WORKDIR /usr/share/nginx/html
-
-# Permission
-RUN chown root /usr/share/nginx/html/*
-RUN chmod 755 /usr/share/nginx/html/*
-
-# Expose port
-EXPOSE 3000
-
-# Start
-CMD ["nginx", "-g", "daemon off;"]
+# Expose port 80
+EXPOSE 80
