@@ -21,6 +21,8 @@ RUN npm run build -- --output-path=/app/dist/out --base-href /reload/ --configur
 # Use official nginx image as the base image
 FROM nginx:latest
 
+COPY ./nginx.conf /etc/nginx/nginx.conf
+
 RUN rm /etc/nginx/conf.d/default.conf
 
 # Remove nginx defaults and Copy angular production build output from build stage.
