@@ -9,6 +9,7 @@ buildDockerImage:
 	docker build -t reload-app-client .
 	docker tag reload-app-client andresnboza/reload-app-client
 	docker push andresnboza/reload-app-client
+	@echo "==> END of docker build <=="
 
 configDotEnvAsConfigMap:
 	kubectl create configmap reload-app-client --from-file=.env=.env
