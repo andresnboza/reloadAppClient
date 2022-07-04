@@ -16,6 +16,6 @@ configDotEnvAsSecret:
 	kubectl create secret generic reload-app-client --from-file=.env=.env
 
 push:
-	git add .
+	git add . 
 	git commit -m "update"
-	git push
+	git push || true
