@@ -33,6 +33,8 @@ export class AppComponent {
     return new Promise<void>(async (resolve, reject) => {
       try {
         let result = await this.http.get<any>(this.url);
+        console.log('---> ',result);
+        
         this.readme = result;
         resolve();
       } catch (error) {
