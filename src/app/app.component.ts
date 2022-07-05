@@ -1,11 +1,41 @@
+import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
+import { Observable, throwError } from 'rxjs';
+import { catchError, retry } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
   title = 'client';
-  url = 'reload-app-server-service/users'
+  url = 'reload-app-server/';
+
+  readme: any = [];
+  show = false;
+
+  constructor(private http: HttpClient) {
+    this.fetchAll()
+      .then(() => {
+        this.show = true;
+        console.log("this.show", this.show);
+        console.log("this.readme", this.readme);
+      })
+      .catch((err) => {
+        this.show = false;
+      });
+  }
+
+  fetchAll() {
+    return new Promise<void>(async (resolve, reject) => {
+      try {
+        let result = await this.http.get<any>(this.url);
+        this.readme = result;
+        resolve();
+      } catch (error) {
+        reject(error);
+      }
+    });
+  }
 }
