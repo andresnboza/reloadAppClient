@@ -12,7 +12,7 @@ export class AppComponent {
   title = 'client';
   url = '/server/api/readme';
 
-  readme: any = [];
+  readme: any;
   show = false;
 
   constructor(private http: HttpClient) {
