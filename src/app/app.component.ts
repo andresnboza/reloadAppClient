@@ -10,7 +10,7 @@ import { catchError, retry } from 'rxjs/operators';
 })
 export class AppComponent {
   title = 'client';
-  url = 'reload-app-server/';
+  url = 'reload-app-server/api/readme';
 
   readme: any = [];
   show = false;
