@@ -10,8 +10,8 @@ import { catchError, retry } from 'rxjs/operators';
 })
 export class AppComponent {
   title = 'client';
-  // url = '/server/api/readme';
-  url = 'http://localhost:3000/api/readme';
+  url = '/server/api/readme';
+  // url = 'http://localhost:3000/api/readme';
 
   readme: any;
   show = false;
