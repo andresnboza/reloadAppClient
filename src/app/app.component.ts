@@ -16,6 +16,7 @@ export class AppComponent {
   show = false;
 
   constructor(private http: HttpClient) {
+    console.log('-----> START <-----')
     this.fetchAll()
       .then(() => {
         this.show = true;
