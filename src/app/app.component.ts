@@ -7,5 +7,5 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'client';
-  url = 'reload-app-server-service/'
+  url = 'reload-app-server-service/users'
 }
