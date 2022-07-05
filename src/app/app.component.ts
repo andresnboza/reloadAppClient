@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
@@ -10,21 +10,22 @@ import { catchError, retry } from 'rxjs/operators';
 })
 export class AppComponent {
   title = 'client';
-  url = '/server/api/readme';
+  // url = '/server/api/readme';
+  url = 'http://localhost:3000/api/readme';
 
   readme: any;
   show = false;
 
   constructor(private http: HttpClient) {
-    console.log('-----> START <-----')
+    console.log('-----> START <-----');
     this.fetchAll()
       .then(() => {
         this.show = true;
-        console.log("this.show", this.show);
-        console.log("this.readme", this.readme);
+        console.log('this.show', this.show);
+        console.log('this.readme', this.readme);
       })
       .catch((err) => {
-        console.log("err", err)
+        console.log('err', err);
         this.show = false;
       });
   }
@@ -32,11 +33,12 @@ export class AppComponent {
   fetchAll() {
     return new Promise<void>(async (resolve, reject) => {
       try {
-        let result = await this.http.get<any>(this.url);
-        console.log('---> ',result);
-        
-        this.readme = result;
-        resolve();
+        let data = await this.http.get<any>(this.url);
+        data.subscribe((result) => {
+          console.log('data ---> ', result);
+          this.readme = result;
+          resolve();
+        });
       } catch (error) {
         reject(error);
       }

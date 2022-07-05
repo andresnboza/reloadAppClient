@@ -7,15 +7,16 @@ FROM node:14 as build
 # Set the working directory
 WORKDIR /app
 
-# Add the source code to app
-COPY ./ /app/
+COPY package*.json /app/
 
 # Install all the dependencies
 RUN npm install
 
+# Add the source code to app
+COPY ./ /app/
+
 # Generate production build
 RUN npm run build -- --output-path=/app/dist/out --base-href /client/ --configuration production --aot
-
 
 # Stage 2: Serve app with nginx server
 # Use official nginx image as the base image
