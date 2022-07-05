@@ -24,6 +24,7 @@ export class AppComponent {
         console.log("this.readme", this.readme);
       })
       .catch((err) => {
+        console.log("err", err)
         this.show = false;
       });
   }
