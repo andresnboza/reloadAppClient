@@ -5,11 +5,13 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 import { HttpClientModule } from '@angular/common/http';
+import { ReadmeHolderComponent } from './components/readme-holder/readme-holder.component';
 
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    ReadmeHolderComponent
   ],
   imports: [
     BrowserModule,

@@ -13,19 +13,15 @@ export class AppComponent {
   url = '/api2/api/readme';
   // url = 'http://localhost:3000/api/readme';
 
-  readme: any;
+  readmes: any = [];
   show = false;
 
   constructor(private http: HttpClient) {
-    console.log('-----> START <-----');
     this.fetchAll()
       .then(() => {
         this.show = true;
-        console.log('this.show', this.show);
-        console.log('this.readme', this.readme);
       })
       .catch((err) => {
-        console.log('err', err);
         this.show = false;
       });
   }
@@ -33,10 +29,9 @@ export class AppComponent {
   fetchAll() {
     return new Promise<void>(async (resolve, reject) => {
       try {
-        let data = await this.http.get<any>(this.url);
-        data.subscribe((result) => {
-          console.log('data ---> ', result);
-          this.readme = result;
+        this.http.get<any>(this.url).subscribe((result) => {
+          //console.log('data ---> ', result.data);
+          this.readmes = result.data;
           resolve();
         });
       } catch (error) {

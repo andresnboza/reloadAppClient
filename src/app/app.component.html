@@ -1,1 +1,11 @@
-<h1>Hello World</h1>
+<h1>Hello User</h1>
+
+<div *ngIf="!show">
+  <h1>Loading ...</h1>
+</div>
+
+<div *ngIf="show">
+  <div *ngFor="let readme of readmes">
+    <app-readme-holder [readme]="readme"></app-readme-holder>
+  </div>
+</div>
